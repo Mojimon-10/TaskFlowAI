@@ -1,4 +1,4 @@
-package com.taskflowai.model;
+package com.taskflowai.backend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
