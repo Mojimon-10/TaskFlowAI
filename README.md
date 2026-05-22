@@ -1,2 +1,3 @@
 # TaskFlowAI
-N/A *In Progress*
+N/A 
+PHASE 3 ONGOING
