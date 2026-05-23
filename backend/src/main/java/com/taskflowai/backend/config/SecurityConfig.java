@@ -8,26 +8,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class SecurityConfig 
-{
+public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception 
-    {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
 
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()
-            )
-            .formLogin(form -> form.disable());
+                .csrf(csrf -> csrf.disable())
+
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .anyRequest().permitAll()
+                )
+
+                .formLogin(form -> form.disable())
+
+                .httpBasic(basic -> basic.disable());
 
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() 
-    {
+    public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 }

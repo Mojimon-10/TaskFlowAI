@@ -14,7 +14,7 @@ import com.taskflowai.backend.service.AuthService;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     @Autowired
@@ -34,10 +34,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(
+    public java.util.Map<String, String> login(
             @RequestBody LoginRequest request
     ) {
 
-        return authService.login(request);
+        String token = authService.login(request);
+
+        return java.util.Map.of(
+                "token",
+                token
+        );
     }
 }

@@ -1,32 +1,80 @@
-export default function Login() {
-  return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import API from "../services/api";
 
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-96">
+export default function Login() {
+
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginUser = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+      const response = await API.post(
+        "/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      localStorage.setItem(
+        "token",
+        response.data.token
+      );
+
+      alert("Login Successful");
+
+      navigate("/dashboard");
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Invalid Credentials");
+    }
+  };
+
+  return (
+
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+
+      <form
+        onSubmit={loginUser}
+        className="bg-white p-8 rounded-xl shadow-xl w-96"
+      >
 
         <h1 className="text-3xl font-bold text-center mb-6">
-          TaskFlowAI
+          TaskFlowAI Login
         </h1>
 
         <input
           type="email"
           placeholder="Email"
-          className="w-full border p-3 rounded-lg mb-4"
+          className="w-full border p-3 rounded mb-4"
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
           type="password"
           placeholder="Password"
-          className="w-full border p-3 rounded-lg mb-4"
+          className="w-full border p-3 rounded mb-4"
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <button
-          className="w-full bg-black text-white py-3 rounded-lg"
+          type="submit"
+          className="w-full bg-black text-white py-3 rounded"
         >
           Login
         </button>
 
-      </div>
+      </form>
 
     </div>
   );
